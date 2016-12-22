@@ -1,0 +1,12 @@
+load_paths:
+  - lib/assets/javascripts
+  - lib/assets/stylesheets
+  - test/javascripts/
+  - tao_on_rails:
+    - lib/assets/javascripts
+    - lib/assets/stylesheets
+
+logical_paths:
+  - tao_popover.css
+  - tao_popover.js
+  - tao_popover_test.js
