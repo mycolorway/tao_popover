@@ -1,5 +1,4 @@
-#= require tao
 #= require_self
 #= require_tree ./
 
-TaoPopover = {}
+window.TaoPopover = {}

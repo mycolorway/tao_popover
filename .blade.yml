@@ -2,11 +2,29 @@ load_paths:
   - lib/assets/javascripts
   - lib/assets/stylesheets
   - test/javascripts/
+  - turbolinks-source: lib/assets/javascripts
+  - jquery-rails: vendor/assets/javascripts
+  - lodash-rails: vendor/assets/javascripts
+  - normalize-rails:
+    - vendor/assets/javascripts
+    - vendor/assets/stylesheets
   - tao_on_rails:
     - lib/assets/javascripts
     - lib/assets/stylesheets
+    - vendor/assets/javascripts
+    - vendor/assets/stylesheets
 
 logical_paths:
+  - tao.js
+  - tao.css
   - tao_popover.css
   - tao_popover.js
   - tao_popover_test.js
+
+build:
+  logical_paths:
+    - tao.js
+    - tao.css
+    - tao_popover.css
+    - tao_popover.js
+  path: dist
