@@ -51,4 +51,4 @@ module 'TaoPopover.Position',
         target: @container.find(".target-#{i + 1}")
         direction: direction.directions
 
-      assert.equal "#{position.top},#{position.left}", expect
+      assert.equal "#{Math.round position.top},#{Math.round position.left}", expect

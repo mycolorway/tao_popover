@@ -234,7 +234,6 @@
     };
 
     Element.prototype._connect = function() {
-      this._render();
       this._autoHideChanged();
       if (this.active) {
         return this.refresh();

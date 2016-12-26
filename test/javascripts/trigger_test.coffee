@@ -2,7 +2,9 @@
 
 module 'TaoPopover.Trigger',
 
-  beforeEach: ->
+  beforeEach: (assert) ->
+    done = assert.async()
+
     @trigger = $('''
       <tao-popover-trigger>
         <a href="javascript:;">click me</a>
@@ -11,6 +13,8 @@ module 'TaoPopover.Trigger',
         </tao-popover>
       </tao-popover-trigger>
     ''').appendTo('body').get(0)
+
+    setTimeout -> done()
 
   afterEach: ->
     @trigger.jq.remove()

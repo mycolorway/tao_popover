@@ -30,7 +30,6 @@ class TaoPopover.Element extends TaoComponent
       '''
 
   _connect: ->
-    @_render()
     @_autoHideChanged()
     @refresh() if @active
 

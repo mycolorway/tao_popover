@@ -2,13 +2,17 @@
 
 module 'TaoPopover.Element',
 
-  beforeEach: ->
+  beforeEach: (assert) ->
+    done = assert.async()
+
     @target = $('''
       <span class="popover-target">Target</span>
     ''').appendTo 'body'
     @popover = $('''
       <tao-popover target-selector=".popover-target">hahaha</tao-popover>
     ''').appendTo('body').get(0)
+
+    setTimeout -> done()
 
   afterEach: ->
     @target.remove()
