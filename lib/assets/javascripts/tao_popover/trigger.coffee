@@ -1,4 +1,4 @@
-#= require ./component
+#= require ./element
 
 class TaoPopover.Trigger extends TaoComponent
 
@@ -11,13 +11,12 @@ class TaoPopover.Trigger extends TaoComponent
   @get 'popover', ->
     return @_popover if @_popover?
 
-    @_popover = $(@).children('tao-popover').get(0)
+    @_popover = @jq.children('tao-popover').get(0)
     @_popover.active = false
     @_popover.autoHide = @triggerAction == 'click'
 
-    unless @_popover.targetSelector
-      @_popover.targetSelector = '*'
-      @_popover.targetTraversal = 'prev'
+    @_popover.targetSelector = '*' unless @_popover.targetSelector
+    @_popover.targetTraversal = 'prev' unless @_popover.targetTraversal
     @_popover
 
   _connect: ->

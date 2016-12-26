@@ -1,4 +1,4 @@
-# TaoPopover
+# TaoPopover [![Build Status](https://travis-ci.org/mycolorway/tao_popover.svg?branch=master)](https://travis-ci.org/mycolorway/tao_popover)
 
 A popover component based on [Tao on Rails](https://github.com/mycolorway/tao_on_rails).
 
@@ -30,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/tao_popover. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mycolorway/tao_popover. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

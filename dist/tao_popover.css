@@ -84,3 +84,6 @@ tao-popover {
   tao-popover[direction='top-center'] .tao-popover-arrow, tao-popover[direction='bottom-center'] .tao-popover-arrow {
     left: 50%;
     margin-left: -8px; }
+
+tao-popover-trigger {
+  display: inline-block; }

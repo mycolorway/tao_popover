@@ -1,7 +1,7 @@
 
 class TaoPopover.Position extends TaoModule
 
-  @property 'direction'
+  @property 'direction', 'popover', 'target'
 
   @property 'arrowAlign', default: 'center'
 
@@ -14,9 +14,6 @@ class TaoPopover.Position extends TaoModule
   _init: ->
     @top = 0
     @left = 0
-    @target = @direction.target
-    @popover = @direction.popover
-    @directions = @direction.directions
 
     @_setPosition()
     @_setArrowAlign()
@@ -33,7 +30,7 @@ class TaoPopover.Position extends TaoModule
     arrowWidth = $arrow.outerWidth()
     arrowHeight = $arrow.outerHeight()
 
-    switch @directions[0]
+    switch @direction[0]
       when 'left'
         @left = targetOffset.left - popoverWidth - arrowWidth - parentOffset.left
       when 'right'
@@ -43,7 +40,7 @@ class TaoPopover.Position extends TaoModule
       when 'bottom'
         @top = targetOffset.top + targetHeight + arrowHeight - parentOffset.top
 
-    switch @directions[1]
+    switch @direction[1]
       when 'top'
         @top = targetOffset.top - popoverHeight + targetHeight / 2 + arrowHeight / 2 + @ARROW_OFFSET - parentOffset.top
       when 'bottom'
@@ -58,14 +55,14 @@ class TaoPopover.Position extends TaoModule
         @top = targetOffset.top + targetHeight / 2  - popoverHeight / 2 - parentOffset.top
 
   _setArrowAlign: ->
-    if /top|bottom/.test @directions[0]
+    if /top|bottom/.test @direction[0]
       switch @arrowAlign
         when 'left'
           @left -= @target.width() / 2
         when 'right'
           @left += @target.width() / 2
 
-    if /left|right/.test @directions[0]
+    if /left|right/.test @direction[0]
       switch @arrowVerticalAlign
         when 'top'
           @top -= @target.height() / 2
@@ -75,7 +72,7 @@ class TaoPopover.Position extends TaoModule
   _setOffset: ->
     return unless @offset
 
-    switch @directions[0]
+    switch @direction[0]
       when 'top'
         @top -= @offset
       when 'bottom'

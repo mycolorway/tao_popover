@@ -88,7 +88,7 @@
       return Position.__super__.constructor.apply(this, arguments);
     }
 
-    Position.property('direction');
+    Position.property('direction', 'popover', 'target');
 
     Position.property('arrowAlign', {
       "default": 'center'
@@ -107,9 +107,6 @@
     Position.prototype._init = function() {
       this.top = 0;
       this.left = 0;
-      this.target = this.direction.target;
-      this.popover = this.direction.popover;
-      this.directions = this.direction.directions;
       this._setPosition();
       this._setArrowAlign();
       return this._setOffset();
@@ -126,7 +123,7 @@
       $arrow = this.popover.find('.tao-popover-arrow');
       arrowWidth = $arrow.outerWidth();
       arrowHeight = $arrow.outerHeight();
-      switch (this.directions[0]) {
+      switch (this.direction[0]) {
         case 'left':
           this.left = targetOffset.left - popoverWidth - arrowWidth - parentOffset.left;
           break;
@@ -139,7 +136,7 @@
         case 'bottom':
           this.top = targetOffset.top + targetHeight + arrowHeight - parentOffset.top;
       }
-      switch (this.directions[1]) {
+      switch (this.direction[1]) {
         case 'top':
           return this.top = targetOffset.top - popoverHeight + targetHeight / 2 + arrowHeight / 2 + this.ARROW_OFFSET - parentOffset.top;
         case 'bottom':
@@ -156,7 +153,7 @@
     };
 
     Position.prototype._setArrowAlign = function() {
-      if (/top|bottom/.test(this.directions[0])) {
+      if (/top|bottom/.test(this.direction[0])) {
         switch (this.arrowAlign) {
           case 'left':
             this.left -= this.target.width() / 2;
@@ -165,7 +162,7 @@
             this.left += this.target.width() / 2;
         }
       }
-      if (/left|right/.test(this.directions[0])) {
+      if (/left|right/.test(this.direction[0])) {
         switch (this.arrowVerticalAlign) {
           case 'top':
             return this.top -= this.target.height() / 2;
@@ -179,7 +176,7 @@
       if (!this.offset) {
         return;
       }
-      switch (this.directions[0]) {
+      switch (this.direction[0]) {
         case 'top':
           return this.top -= this.offset;
         case 'bottom':
@@ -203,71 +200,68 @@
 
   Direction = TaoPopover.Direction, Position = TaoPopover.Position;
 
-  TaoPopover.Component = (function(superClass) {
-    extend(Component, superClass);
+  TaoPopover.Element = (function(superClass) {
+    extend(Element, superClass);
 
-    function Component() {
-      return Component.__super__.constructor.apply(this, arguments);
+    function Element() {
+      return Element.__super__.constructor.apply(this, arguments);
     }
 
-    Component.tag = 'tao-popover';
+    Element.tag = 'tao-popover';
 
-    Component.count = 0;
+    Element.count = 0;
 
-    Component.property('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
+    Element.property('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
       observe: true
     });
 
-    Component.property('offset', {
+    Element.property('offset', {
       observe: true,
       "default": 5
     });
 
-    Component.property('autoHide', {
+    Element.property('autoHide', {
       "default": true
     });
 
-    Component.prototype._init = function() {
+    Element.prototype._init = function() {
       this.id || (this.id = "tao-popover-" + (++this.constructor.count));
-      return this._render;
+      return this._render();
     };
 
-    Component.prototype._render = function() {
-      return $(this).wrapInner('<div class="tao-popover-content">').append('<div class="tao-popover-arrow">\n  <i class="arrow arrow-shadow"></i>\n  <i class="arrow arrow-border"></i>\n  <i class="arrow arrow-basic"></i>\n</div>');
+    Element.prototype._render = function() {
+      return this.jq.wrapInner('<div class="tao-popover-content">').append('<div class="tao-popover-arrow">\n  <i class="arrow arrow-shadow"></i>\n  <i class="arrow arrow-border"></i>\n  <i class="arrow arrow-basic"></i>\n</div>');
     };
 
-    Component.prototype._connect = function() {
+    Element.prototype._connect = function() {
       this._render();
       this._autoHideChanged();
-      return this.refresh();
-    };
-
-    Component.prototype.attributeChangedCallback = function() {
-      if (this._refreshing) {
-        return;
+      if (this.active) {
+        return this.refresh();
       }
-      Component.__super__.attributeChangedCallback.apply(this, arguments);
-      return this.refresh();
     };
 
-    Component.prototype._activeChanged = function() {
-      if (this.autoHide) {
-        if (this.active) {
+    Element.prototype._activeChanged = function() {
+      if (this.active) {
+        this.refresh();
+        if (this.autoHide) {
           return this._enableAutoHide();
-        } else {
+        }
+      } else {
+        if (this.autoHide) {
           return this._disableAutoHide();
         }
       }
     };
 
-    Component.prototype._autoHideChanged = function() {
+    Element.prototype._autoHideChanged = function() {
       this._disableAutoHide();
       if (this.autoHide && this.active) {
         return this._enableAutoHide();
       }
     };
 
-    Component.prototype._enableAutoHide = function() {
+    Element.prototype._enableAutoHide = function() {
       return $(document).on("mousedown." + this.id, (function(_this) {
         return function(e) {
           var target;
@@ -275,7 +269,7 @@
             return;
           }
           target = $(e.target);
-          if (target.is(_this.target) || $(_this).has(target).length || target.is(_this)) {
+          if (target.is(_this.target) || _this.jq.has(target).length || target.is(_this)) {
             return;
           }
           return _this.active = false;
@@ -283,49 +277,49 @@
       })(this));
     };
 
-    Component.prototype._disableAutoHide = function() {
+    Element.prototype._disableAutoHide = function() {
       return $(document).off("mousedown." + this.id);
     };
 
-    Component.prototype.refresh = function() {
+    Element.prototype.refresh = function() {
       var base, direction, name;
-      this.target = this.targetTraversal ? typeof (base = $(this))[name = this.targetTraversal] === "function" ? base[name](this.targetSelector) : void 0 : $(this.targetSelector);
-      if (!(this.target.length > 0)) {
+      this.target = this.targetTraversal && this.targetSelector ? typeof (base = this.jq)[name = this.targetTraversal] === "function" ? base[name](this.targetSelector) : void 0 : this.targetSelector ? $(this.targetSelector) : void 0;
+      if (!(this.target && this.target.length > 0)) {
         return;
       }
-      this._refreshing = true;
       direction = new Direction({
-        popover: $(this),
+        popover: this.jq,
         target: this.target,
         boundarySelector: this.boundarySelector
       });
       this.direction = direction.toString();
       this.position = new Position({
-        direction: direction,
+        popover: this.jq,
+        target: this.target,
+        direction: this.direction.split('-'),
         arrowAlign: this.arrowAlign,
         arrowVerticalAlign: this.arrowVerticalAlign,
         offset: this.offset
       });
-      $(this).css({
+      return this.jq.css({
         top: this.position.top,
         left: this.position.left
       });
-      return this._refreshing = false;
     };
 
-    Component.prototype.toggleActive = function() {
+    Element.prototype.toggleActive = function() {
       return this.active = !this.active;
     };
 
-    Component.prototype._disconnect = function() {
+    Element.prototype._disconnect = function() {
       return this._disableAutoHide();
     };
 
-    return Component;
+    return Element;
 
   })(TaoComponent);
 
-  TaoComponent.register(TaoPopover.Component);
+  TaoComponent.register(TaoPopover.Element);
 
 }).call(this);
 (function() {
@@ -355,11 +349,13 @@
       if (this._popover != null) {
         return this._popover;
       }
-      this._popover = $(this).children('tao-popover').get(0);
+      this._popover = this.jq.children('tao-popover').get(0);
       this._popover.active = false;
       this._popover.autoHide = this.triggerAction === 'click';
       if (!this._popover.targetSelector) {
         this._popover.targetSelector = '*';
+      }
+      if (!this._popover.targetTraversal) {
         this._popover.targetTraversal = 'prev';
       }
       return this._popover;

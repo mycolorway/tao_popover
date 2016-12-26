@@ -3,7 +3,7 @@
 
 {Direction, Position} = TaoPopover
 
-class TaoPopover.Component extends TaoComponent
+class TaoPopover.Element extends TaoComponent
 
   @tag: 'tao-popover'
 
@@ -17,10 +17,10 @@ class TaoPopover.Component extends TaoComponent
 
   _init: ->
     @id ||= "tao-popover-#{++@constructor.count}"
-    @_render
+    @_render()
 
   _render: ->
-    $(@).wrapInner '<div class="tao-popover-content">'
+    @jq.wrapInner '<div class="tao-popover-content">'
       .append '''
         <div class="tao-popover-arrow">
           <i class="arrow arrow-shadow"></i>
@@ -32,19 +32,14 @@ class TaoPopover.Component extends TaoComponent
   _connect: ->
     @_render()
     @_autoHideChanged()
-    @refresh()
-
-  attributeChangedCallback: ->
-    return if @_refreshing
-    super
-    @refresh()
+    @refresh() if @active
 
   _activeChanged: ->
-    if @autoHide
-      if @active
-        @_enableAutoHide()
-      else
-        @_disableAutoHide()
+    if @active
+      @refresh()
+      @_enableAutoHide() if @autoHide
+    else
+      @_disableAutoHide() if @autoHide
 
   _autoHideChanged: ->
     @_disableAutoHide()
@@ -54,39 +49,37 @@ class TaoPopover.Component extends TaoComponent
     $(document).on "mousedown.#{@id}", (e) =>
       return unless @active
       target = $ e.target
-      return if target.is(@target) or $(@).has(target).length or target.is(@)
+      return if target.is(@target) or @jq.has(target).length or target.is(@)
       @active = false
 
   _disableAutoHide: ->
     $(document).off "mousedown.#{@id}"
 
   refresh: ->
-    @target = if @targetTraversal
-      $(@)[@targetTraversal]?(@targetSelector)
-    else
+    @target = if @targetTraversal && @targetSelector
+      @jq[@targetTraversal]?(@targetSelector)
+    else if @targetSelector
       $ @targetSelector
 
-    return unless @target.length > 0
-    @_refreshing = true
+    return unless @target && @target.length > 0
 
     direction = new Direction
-      popover: $ @
+      popover: @jq
       target: @target
       boundarySelector: @boundarySelector
-
     @direction = direction.toString()
 
     @position = new Position
-      direction: direction
+      popover: @jq
+      target: @target
+      direction: @direction.split('-')
       arrowAlign: @arrowAlign
       arrowVerticalAlign: @arrowVerticalAlign
       offset: @offset
 
-    $(@).css
+    @jq.css
       top: @position.top
       left: @position.left
-
-    @_refreshing = false
 
   toggleActive: ->
     @active = !@active
@@ -94,4 +87,4 @@ class TaoPopover.Component extends TaoComponent
   _disconnect: ->
     @_disableAutoHide()
 
-TaoComponent.register TaoPopover.Component
+TaoComponent.register TaoPopover.Element
