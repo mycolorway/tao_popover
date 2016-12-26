@@ -5,9 +5,6 @@ load_paths:
   - turbolinks-source: lib/assets/javascripts
   - jquery-rails: vendor/assets/javascripts
   - lodash-rails: vendor/assets/javascripts
-  - normalize-rails:
-    - vendor/assets/javascripts
-    - vendor/assets/stylesheets
   - tao_on_rails:
     - lib/assets/javascripts
     - lib/assets/stylesheets

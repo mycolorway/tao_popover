@@ -1,7 +1,4 @@
-require 'turbolinks'
-require 'jquery-rails'
-require 'lodash-rails'
-require 'normalize-rails'
+require 'tao_on_rails'
 
 module TaoPopover
   module Rails
