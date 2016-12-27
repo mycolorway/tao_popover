@@ -24,7 +24,7 @@ module 'TaoPopover.Element',
   test 'inherits from TaoComponent', (assert) ->
     assert.ok @popover instanceof TaoComponent
 
-  test 'active property', (assert) ->
+  test 'active attribute', (assert) ->
     assert.equal @popover.active, false
     assert.notOk @popover.hasAttribute('active')
     assert.equal @popover.direction, false

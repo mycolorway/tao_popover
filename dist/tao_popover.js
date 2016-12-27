@@ -13,7 +13,7 @@
       return Direction.__super__.constructor.apply(this, arguments);
     }
 
-    Direction.property('popover', 'target', 'boundarySelector');
+    Direction.attribute('popover', 'target', 'boundarySelector');
 
     Direction.prototype._init = function() {
       this.boundary = this.boundarySelector ? this.target.closest(this.boundarySelector) : $(window);
@@ -88,17 +88,17 @@
       return Position.__super__.constructor.apply(this, arguments);
     }
 
-    Position.property('direction', 'popover', 'target');
+    Position.attribute('direction', 'popover', 'target');
 
-    Position.property('arrowAlign', {
+    Position.attribute('arrowAlign', {
       "default": 'center'
     });
 
-    Position.property('arrowVerticalAlign', {
+    Position.attribute('arrowVerticalAlign', {
       "default": 'middle'
     });
 
-    Position.property('offset', {
+    Position.attribute('offset', {
       "default": 0
     });
 
@@ -211,16 +211,16 @@
 
     Element.count = 0;
 
-    Element.property('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
+    Element.attribute('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
       observe: true
     });
 
-    Element.property('offset', {
+    Element.attribute('offset', {
       observe: true,
       "default": 5
     });
 
-    Element.property('autoHide', {
+    Element.attribute('autoHide', {
       "default": true
     });
 
@@ -334,12 +334,12 @@
 
     Trigger.tag = 'tao-popover-trigger';
 
-    Trigger.property('triggerAction', {
+    Trigger.attribute('triggerAction', {
       observe: true,
       "default": 'click'
     });
 
-    Trigger.property('triggerSelector', {
+    Trigger.attribute('triggerSelector', {
       observe: true,
       "default": 'a, button'
     });

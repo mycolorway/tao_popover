@@ -4,9 +4,9 @@ class TaoPopover.Trigger extends TaoComponent
 
   @tag: 'tao-popover-trigger'
 
-  @property 'triggerAction', observe: true, default: 'click'
+  @attribute 'triggerAction', observe: true, default: 'click'
 
-  @property 'triggerSelector', observe: true, default: 'a, button'
+  @attribute 'triggerSelector', observe: true, default: 'a, button'
 
   @get 'popover', ->
     return @_popover if @_popover?

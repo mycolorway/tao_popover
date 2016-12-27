@@ -9,11 +9,11 @@ class TaoPopover.Element extends TaoComponent
 
   @count: 0
 
-  @property 'active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', observe: true
+  @attribute 'active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', observe: true
 
-  @property 'offset', observe: true, default: 5
+  @attribute 'offset', observe: true, default: 5
 
-  @property 'autoHide', default: true
+  @attribute 'autoHide', default: true
 
   _init: ->
     @id ||= "tao-popover-#{++@constructor.count}"
