@@ -7,8 +7,6 @@ class TaoPopover.Element extends TaoComponent
 
   @tag: 'tao-popover'
 
-  @count: 0
-
   @attribute 'active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', observe: true
 
   @attribute 'offset', observe: true, default: 5
@@ -16,10 +14,6 @@ class TaoPopover.Element extends TaoComponent
   @attribute 'autoHide', default: true
 
   _init: ->
-    @id ||= "tao-popover-#{++@constructor.count}"
-    @_render()
-
-  _render: ->
     @jq.wrapInner '<div class="tao-popover-content">'
       .append '''
         <div class="tao-popover-arrow">
@@ -29,7 +23,7 @@ class TaoPopover.Element extends TaoComponent
         </div>
       '''
 
-  _connect: ->
+  _connected: ->
     @_autoHideChanged()
     @refresh() if @active
 
@@ -45,14 +39,14 @@ class TaoPopover.Element extends TaoComponent
     @_enableAutoHide() if @autoHide && @active
 
   _enableAutoHide: ->
-    $(document).on "mousedown.#{@id}", (e) =>
+    $(document).on "mousedown.tao-popover-#{@taoId}", (e) =>
       return unless @active
       target = $ e.target
       return if target.is(@target) or @jq.has(target).length or target.is(@)
       @active = false
 
   _disableAutoHide: ->
-    $(document).off "mousedown.#{@id}"
+    $(document).off "mousedown.tao-popover-#{@taoId}"
 
   refresh: ->
     @target = if @targetTraversal && @targetSelector
@@ -83,7 +77,7 @@ class TaoPopover.Element extends TaoComponent
   toggleActive: ->
     @active = !@active
 
-  _disconnect: ->
+  _disconnected: ->
     @_disableAutoHide()
 
 TaoComponent.register TaoPopover.Element
