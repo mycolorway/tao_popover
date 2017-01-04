@@ -209,8 +209,6 @@
 
     Element.tag = 'tao-popover';
 
-    Element.count = 0;
-
     Element.attribute('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
       observe: true
     });
@@ -225,15 +223,10 @@
     });
 
     Element.prototype._init = function() {
-      this.id || (this.id = "tao-popover-" + (++this.constructor.count));
-      return this._render();
-    };
-
-    Element.prototype._render = function() {
       return this.jq.wrapInner('<div class="tao-popover-content">').append('<div class="tao-popover-arrow">\n  <i class="arrow arrow-shadow"></i>\n  <i class="arrow arrow-border"></i>\n  <i class="arrow arrow-basic"></i>\n</div>');
     };
 
-    Element.prototype._connect = function() {
+    Element.prototype._connected = function() {
       this._autoHideChanged();
       if (this.active) {
         return this.refresh();
@@ -261,7 +254,7 @@
     };
 
     Element.prototype._enableAutoHide = function() {
-      return $(document).on("mousedown." + this.id, (function(_this) {
+      return $(document).on("mousedown.tao-popover-" + this.taoId, (function(_this) {
         return function(e) {
           var target;
           if (!_this.active) {
@@ -277,7 +270,7 @@
     };
 
     Element.prototype._disableAutoHide = function() {
-      return $(document).off("mousedown." + this.id);
+      return $(document).off("mousedown.tao-popover-" + this.taoId);
     };
 
     Element.prototype.refresh = function() {
@@ -310,7 +303,7 @@
       return this.active = !this.active;
     };
 
-    Element.prototype._disconnect = function() {
+    Element.prototype._disconnected = function() {
       return this._disableAutoHide();
     };
 
@@ -344,24 +337,24 @@
       "default": 'a, button'
     });
 
-    Trigger.get('popover', function() {
-      if (this._popover != null) {
-        return this._popover;
+    Trigger.prototype._init = function() {
+      this.popover = this.jq.children('tao-popover').get(0);
+      this.popover.active = false;
+      this.popover.autoHide = this.triggerAction === 'click';
+      if (!this.popover.targetSelector) {
+        this.popover.targetSelector = '*';
       }
-      this._popover = this.jq.children('tao-popover').get(0);
-      this._popover.active = false;
-      this._popover.autoHide = this.triggerAction === 'click';
-      if (!this._popover.targetSelector) {
-        this._popover.targetSelector = '*';
+      if (!this.popover.targetTraversal) {
+        return this.popover.targetTraversal = 'prev';
       }
-      if (!this._popover.targetTraversal) {
-        this._popover.targetTraversal = 'prev';
-      }
-      return this._popover;
-    });
+    };
 
-    Trigger.prototype._connect = function() {
+    Trigger.prototype._connected = function() {
       return this._bindTriggerEvent();
+    };
+
+    Trigger.prototype._disconnected = function() {
+      return this.off('.tao-popover-trigger');
     };
 
     Trigger.prototype._bindTriggerEvent = function() {
@@ -393,10 +386,6 @@
 
     Trigger.prototype._triggerSelectorChanged = function() {
       return this._bindTriggerEvent();
-    };
-
-    Trigger.prototype._disconnect = function() {
-      return this.off('.tao-popover-trigger');
     };
 
     return Trigger;

@@ -8,19 +8,19 @@ class TaoPopover.Trigger extends TaoComponent
 
   @attribute 'triggerSelector', observe: true, default: 'a, button'
 
-  @get 'popover', ->
-    return @_popover if @_popover?
+  _init: ->
+    @popover = @jq.children('tao-popover').get(0)
+    @popover.active = false
+    @popover.autoHide = @triggerAction == 'click'
 
-    @_popover = @jq.children('tao-popover').get(0)
-    @_popover.active = false
-    @_popover.autoHide = @triggerAction == 'click'
+    @popover.targetSelector = '*' unless @popover.targetSelector
+    @popover.targetTraversal = 'prev' unless @popover.targetTraversal
 
-    @_popover.targetSelector = '*' unless @_popover.targetSelector
-    @_popover.targetTraversal = 'prev' unless @_popover.targetTraversal
-    @_popover
-
-  _connect: ->
+  _connected: ->
     @_bindTriggerEvent()
+
+  _disconnected: ->
+    @off '.tao-popover-trigger'
 
   _bindTriggerEvent: ->
     @off '.tao-popover-trigger'
@@ -42,7 +42,5 @@ class TaoPopover.Trigger extends TaoComponent
   _triggerSelectorChanged: ->
     @_bindTriggerEvent()
 
-  _disconnect: ->
-    @off '.tao-popover-trigger'
 
 TaoComponent.register TaoPopover.Trigger
