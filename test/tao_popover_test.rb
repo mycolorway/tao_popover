@@ -1,7 +1,13 @@
 require 'test_helper'
 
-class TaoPopoverTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    assert true
+class TaoPopoverTest < ActiveSupport::TestCase
+
+  test 'version number' do
+    assert TaoPopover::VERSION.is_a? String
   end
+
+  test 'TaoPopover::Engine inherits from Rails::Engine' do
+    assert TaoPopover::Engine < Rails::Engine
+  end
+
 end

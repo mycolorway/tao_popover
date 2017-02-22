@@ -1,7 +1,5 @@
-require "tao_popover/rails"
+require 'tao_popover/version'
+require 'tao_popover/engine'
 
 module TaoPopover
-  def self.root
-    File.dirname __dir__
-  end
 end
