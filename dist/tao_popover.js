@@ -13,7 +13,7 @@
       return Direction.__super__.constructor.apply(this, arguments);
     }
 
-    Direction.attribute('popover', 'target', 'boundarySelector');
+    Direction.property('popover', 'target', 'boundarySelector');
 
     Direction.prototype._init = function() {
       this.boundary = this.boundarySelector ? this.target.closest(this.boundarySelector) : $(window);
@@ -88,17 +88,17 @@
       return Position.__super__.constructor.apply(this, arguments);
     }
 
-    Position.attribute('direction', 'popover', 'target');
+    Position.property('direction', 'popover', 'target');
 
-    Position.attribute('arrowAlign', {
+    Position.property('arrowAlign', {
       "default": 'center'
     });
 
-    Position.attribute('arrowVerticalAlign', {
+    Position.property('arrowVerticalAlign', {
       "default": 'middle'
     });
 
-    Position.attribute('offset', {
+    Position.property('offset', {
       "default": 0
     });
 
@@ -209,27 +209,65 @@
 
     Element.tag = 'tao-popover';
 
-    Element.attribute('active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', {
+    Element.attribute('active', {
+      type: 'boolean',
       observe: true
     });
 
+    Element.attribute('targetSelector', 'targetTraversal', 'triggerSelector', 'triggerTraversal');
+
+    Element.attribute('triggerAction', {
+      "default": 'click'
+    });
+
+    Element.attribute('boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign');
+
     Element.attribute('offset', {
-      observe: true,
       "default": 5
     });
 
     Element.attribute('autoHide', {
+      type: 'boolean',
       "default": true
     });
 
     Element.prototype._init = function() {
-      return this.jq.wrapInner('<div class="tao-popover-content">').append('<div class="tao-popover-arrow">\n  <i class="arrow arrow-shadow"></i>\n  <i class="arrow arrow-border"></i>\n  <i class="arrow arrow-basic"></i>\n</div>');
+      var base, base1, name, name1;
+      this.target = this.targetTraversal && this.targetSelector ? typeof (base = this.jq)[name = this.targetTraversal] === "function" ? base[name](this.targetSelector) : void 0 : this.targetSelector ? $(this.targetSelector) : void 0;
+      if (!(this.target.length > 0)) {
+        throw new Error('tao-popover: targetSelector attribute is required.');
+        return;
+      }
+      this.trigger = this.triggerTraversal && this.triggerSelector ? typeof (base1 = this.jq)[name1 = this.triggerTraversal] === "function" ? base1[name1](this.triggerSelector) : void 0 : this.triggerSelector ? $(this.triggerSelector) : this.target;
+      return this._bind();
     };
 
     Element.prototype._connected = function() {
-      this._autoHideChanged();
       if (this.active) {
-        return this.refresh();
+        this.refresh();
+      }
+      if (this.autoHide && this.active) {
+        return this._enableAutoHide();
+      }
+    };
+
+    Element.prototype._bind = function() {
+      if (this.triggerAction === 'click') {
+        return this.trigger.on('click.tao-popover', (function(_this) {
+          return function(e) {
+            return _this.toggleActive();
+          };
+        })(this));
+      } else if (this.triggerAction === 'hover') {
+        return this.trigger.on('mouseenter.tao-popover', (function(_this) {
+          return function(e) {
+            return _this.active = true;
+          };
+        })(this)).on('mouseleave.tao-popover', (function(_this) {
+          return function(e) {
+            return _this.active = false;
+          };
+        })(this));
       }
     };
 
@@ -243,13 +281,6 @@
         if (this.autoHide) {
           return this._disableAutoHide();
         }
-      }
-    };
-
-    Element.prototype._autoHideChanged = function() {
-      this._disableAutoHide();
-      if (this.autoHide && this.active) {
-        return this._enableAutoHide();
       }
     };
 
@@ -274,17 +305,15 @@
     };
 
     Element.prototype.refresh = function() {
-      var base, direction, name;
-      this.target = this.targetTraversal && this.targetSelector ? typeof (base = this.jq)[name = this.targetTraversal] === "function" ? base[name](this.targetSelector) : void 0 : this.targetSelector ? $(this.targetSelector) : void 0;
-      if (!(this.target && this.target.length > 0)) {
-        return;
+      var direction;
+      if (!this.direction) {
+        direction = new Direction({
+          popover: this.jq,
+          target: this.target,
+          boundarySelector: this.boundarySelector
+        });
+        this.direction = direction.toString();
       }
-      direction = new Direction({
-        popover: this.jq,
-        target: this.target,
-        boundarySelector: this.boundarySelector
-      });
-      this.direction = direction.toString();
       this.position = new Position({
         popover: this.jq,
         target: this.target,
@@ -304,7 +333,8 @@
     };
 
     Element.prototype._disconnected = function() {
-      return this._disableAutoHide();
+      this.trigger.off('.tao-popover');
+      return $(document).off(".tao-popover-" + this.taoId);
     };
 
     return Element;
@@ -312,86 +342,5 @@
   })(TaoComponent);
 
   TaoComponent.register(TaoPopover.Element);
-
-}).call(this);
-(function() {
-  var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    hasProp = {}.hasOwnProperty;
-
-  TaoPopover.Trigger = (function(superClass) {
-    extend(Trigger, superClass);
-
-    function Trigger() {
-      return Trigger.__super__.constructor.apply(this, arguments);
-    }
-
-    Trigger.tag = 'tao-popover-trigger';
-
-    Trigger.attribute('triggerAction', {
-      observe: true,
-      "default": 'click'
-    });
-
-    Trigger.attribute('triggerSelector', {
-      observe: true,
-      "default": 'a, button'
-    });
-
-    Trigger.prototype._init = function() {
-      this.popover = this.jq.children('tao-popover').get(0);
-      this.popover.active = false;
-      this.popover.autoHide = this.triggerAction === 'click';
-      if (!this.popover.targetSelector) {
-        this.popover.targetSelector = '*';
-      }
-      if (!this.popover.targetTraversal) {
-        return this.popover.targetTraversal = 'prev';
-      }
-    };
-
-    Trigger.prototype._connected = function() {
-      return this._bindTriggerEvent();
-    };
-
-    Trigger.prototype._disconnected = function() {
-      return this.off('.tao-popover-trigger');
-    };
-
-    Trigger.prototype._bindTriggerEvent = function() {
-      this.off('.tao-popover-trigger');
-      if (this.triggerAction === 'click') {
-        return this.on('click.tao-popover-trigger', "> " + this.triggerSelector, (function(_this) {
-          return function(e) {
-            _this.popover.toggleActive();
-            return false;
-          };
-        })(this));
-      } else if (this.triggerAction === 'hover') {
-        return this.on('mouseenter.tao-popover-trigger', "> " + this.triggerSelector, (function(_this) {
-          return function(e) {
-            return _this.popover.active = true;
-          };
-        })(this)).on('mouseleave.tao-popover-trigger', "> " + this.triggerSelector, (function(_this) {
-          return function(e) {
-            return _this.popover.active = false;
-          };
-        })(this));
-      }
-    };
-
-    Trigger.prototype._triggerActionChanged = function() {
-      this._popover = null;
-      return this._bindTriggerEvent();
-    };
-
-    Trigger.prototype._triggerSelectorChanged = function() {
-      return this._bindTriggerEvent();
-    };
-
-    return Trigger;
-
-  })(TaoComponent);
-
-  TaoComponent.register(TaoPopover.Trigger);
 
 }).call(this);

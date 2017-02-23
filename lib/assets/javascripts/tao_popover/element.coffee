@@ -7,25 +7,50 @@ class TaoPopover.Element extends TaoComponent
 
   @tag: 'tao-popover'
 
-  @attribute 'active', 'targetSelector', 'targetTraversal', 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign', observe: true
+  @attribute 'active', type: 'boolean', observe: true
 
-  @attribute 'offset', observe: true, default: 5
+  @attribute 'targetSelector', 'targetTraversal', 'triggerSelector', 'triggerTraversal'
 
-  @attribute 'autoHide', default: true
+  @attribute 'triggerAction', default: 'click'
+
+  @attribute 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign'
+
+  @attribute 'offset', default: 5
+
+  @attribute 'autoHide', type: 'boolean', default: true
 
   _init: ->
-    @jq.wrapInner '<div class="tao-popover-content">'
-      .append '''
-        <div class="tao-popover-arrow">
-          <i class="arrow arrow-shadow"></i>
-          <i class="arrow arrow-border"></i>
-          <i class="arrow arrow-basic"></i>
-        </div>
-      '''
+    @target = if @targetTraversal && @targetSelector
+      @jq[@targetTraversal]?(@targetSelector)
+    else if @targetSelector
+      $ @targetSelector
+
+    unless @target.length > 0
+      throw new Error 'tao-popover: targetSelector attribute is required.'
+      return
+
+    @trigger = if @triggerTraversal && @triggerSelector
+      @jq[@triggerTraversal]?(@triggerSelector)
+    else if @triggerSelector
+      $ @triggerSelector
+    else
+      @target
+
+    @_bind()
 
   _connected: ->
-    @_autoHideChanged()
     @refresh() if @active
+    @_enableAutoHide() if @autoHide && @active
+
+  _bind: ->
+    if @triggerAction == 'click'
+      @trigger.on 'click.tao-popover', (e) =>
+        @toggleActive()
+    else if @triggerAction == 'hover'
+      @trigger.on 'mouseenter.tao-popover', (e) =>
+        @active = true
+      .on 'mouseleave.tao-popover', (e) =>
+        @active = false
 
   _activeChanged: ->
     if @active
@@ -33,10 +58,6 @@ class TaoPopover.Element extends TaoComponent
       @_enableAutoHide() if @autoHide
     else
       @_disableAutoHide() if @autoHide
-
-  _autoHideChanged: ->
-    @_disableAutoHide()
-    @_enableAutoHide() if @autoHide && @active
 
   _enableAutoHide: ->
     $(document).on "mousedown.tao-popover-#{@taoId}", (e) =>
@@ -49,18 +70,12 @@ class TaoPopover.Element extends TaoComponent
     $(document).off "mousedown.tao-popover-#{@taoId}"
 
   refresh: ->
-    @target = if @targetTraversal && @targetSelector
-      @jq[@targetTraversal]?(@targetSelector)
-    else if @targetSelector
-      $ @targetSelector
-
-    return unless @target && @target.length > 0
-
-    direction = new Direction
-      popover: @jq
-      target: @target
-      boundarySelector: @boundarySelector
-    @direction = direction.toString()
+    unless @direction
+      direction = new Direction
+        popover: @jq
+        target: @target
+        boundarySelector: @boundarySelector
+      @direction = direction.toString()
 
     @position = new Position
       popover: @jq
@@ -78,6 +93,7 @@ class TaoPopover.Element extends TaoComponent
     @active = !@active
 
   _disconnected: ->
-    @_disableAutoHide()
+    @trigger.off '.tao-popover'
+    $(document).off ".tao-popover-#{@taoId}"
 
 TaoComponent.register TaoPopover.Element

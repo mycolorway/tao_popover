@@ -7,7 +7,7 @@ tao-popover {
   top: -9999px;
   z-index: 200;
 
-  &[active] {
+  &[active='true'] {
     display: block;
   }
 

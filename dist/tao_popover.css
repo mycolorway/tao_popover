@@ -4,7 +4,7 @@ tao-popover {
   left: -9999px;
   top: -9999px;
   z-index: 200; }
-  tao-popover[active] {
+  tao-popover[active='true'] {
     display: block; }
   tao-popover .tao-popover-content {
     padding: 10px 15px;

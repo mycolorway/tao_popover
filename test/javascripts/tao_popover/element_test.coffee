@@ -27,11 +27,10 @@ module 'TaoPopover.Element',
   test 'active attribute', (assert) ->
     assert.equal @popover.active, false
     assert.notOk @popover.hasAttribute('active')
-    assert.equal @popover.direction, false
-    assert.notOk @popover.target
+    assert.equal @popover.direction, ''
+    assert.equal @popover.target.get(0), @target.get(0)
 
     @popover.active = true
     assert.equal @popover.active, true
     assert.ok @popover.hasAttribute('active')
     assert.equal @popover.direction, 'right-middle'
-    assert.equal @popover.target.get(0), @target.get(0)

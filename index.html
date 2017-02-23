@@ -16,31 +16,31 @@
 			margin: 80px auto;
 		}
 
-		.wrapper tao-popover-trigger {
+		.wrapper .link-trigger {
 			position: absolute;
 		}
 
-		.wrapper tao-popover-trigger:nth-child(1) {
+		.wrapper .link-trigger-1 {
 			top: 20px;
 			left: 20px;
 		}
 
-		.wrapper tao-popover-trigger:nth-child(2) {
+		.wrapper .link-trigger-2 {
       bottom: 20px;
 			left: 20px;
 		}
 
-		.wrapper tao-popover-trigger:nth-child(3) {
+		.wrapper .link-trigger-3 {
       top: 20px;
 			right: 20px;
 		}
 
-		.wrapper tao-popover-trigger:nth-child(4) {
+		.wrapper .link-trigger-4 {
       bottom: 20px;
 			right: 20px;
 		}
 
-		.wrapper tao-popover-trigger:nth-child(5) {
+		.wrapper .link-trigger-5 {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -53,43 +53,66 @@
 </head>
 <body>
   <div class="wrapper">
-    <tao-popover-trigger>
-      <a href="javascript:;">click me</a>
-      <tao-popover boundary-selector=".wrapper">
-        lalala
-      </tao-popover>
-    </tao-popover-trigger>
+    <a href="javascript:;" class="link-trigger link-trigger-1">click me</a>
+    <tao-popover boundary-selector=".wrapper" target-traversal='prev' target-selector='.link-trigger'>
+			<div class="tao-popover-content">
+				lalala
+			</div>
+			<div class="tao-popover-arrow">
+				<i class="arrow arrow-shadow"></i>
+				<i class="arrow arrow-border"></i>
+				<i class="arrow arrow-basic"></i>
+			</div>
+    </tao-popover>
 
-    <tao-popover-trigger>
-      <a href="javascript:;">click me</a>
-      <tao-popover boundary-selector=".wrapper">
-        lalala
-      </tao-popover>
-    </tao-popover-trigger>
+    <a href="javascript:;" class="link-trigger link-trigger-2">click me</a>
+    <tao-popover boundary-selector=".wrapper" target-traversal='prev' target-selector='.link-trigger'>
+			<div class="tao-popover-content">
+				lalala
+			</div>
+			<div class="tao-popover-arrow">
+				<i class="arrow arrow-shadow"></i>
+				<i class="arrow arrow-border"></i>
+				<i class="arrow arrow-basic"></i>
+			</div>
+    </tao-popover>
 
-    <tao-popover-trigger trigger-action="hover">
-      <a href="javascript:;">hover me</a>
-      <tao-popover boundary-selector=".wrapper">
-        lalala
-      </tao-popover>
-    </tao-popover-trigger>
+		<a href="javascript:;" class="link-trigger link-trigger-3">hover me</a>
+    <tao-popover boundary-selector=".wrapper" target-traversal='prev' target-selector='.link-trigger' trigger-action='hover'>
+			<div class="tao-popover-content">
+				lalala
+			</div>
+			<div class="tao-popover-arrow">
+				<i class="arrow arrow-shadow"></i>
+				<i class="arrow arrow-border"></i>
+				<i class="arrow arrow-basic"></i>
+			</div>
+    </tao-popover>
 
-    <tao-popover-trigger trigger-action="hover">
-      <a href="javascript:;">hover me</a>
-      <tao-popover boundary-selector=".wrapper">
-        lalala
-      </tao-popover>
-    </tao-popover-trigger>
+		<a href="javascript:;" class="link-trigger link-trigger-4">hover me</a>
+		<tao-popover boundary-selector=".wrapper" target-traversal='prev' target-selector='.link-trigger' trigger-action='hover'>
+			<div class="tao-popover-content">
+				lalala
+			</div>
+			<div class="tao-popover-arrow">
+				<i class="arrow arrow-shadow"></i>
+				<i class="arrow arrow-border"></i>
+				<i class="arrow arrow-basic"></i>
+			</div>
+		</tao-popover>
 
-    <tao-popover-trigger trigger-action="click">
-      <tao-popover boundary-selector=".wrapper" target-traversal="next" target-selector="button">
-        <ul>
-          <li>hahaha</li>
-          <li>lalala</li>
-        </ul>
-      </tao-popover>
-      <button>click me</button>
-    </tao-popover-trigger>
+
+		<a href="javascript:;" class="link-trigger link-trigger-5">click me</a>
+		<tao-popover boundary-selector=".wrapper" target-traversal='prev' target-selector='.link-trigger'>
+			<div class="tao-popover-content">
+				lalala
+			</div>
+			<div class="tao-popover-arrow">
+				<i class="arrow arrow-shadow"></i>
+				<i class="arrow arrow-border"></i>
+				<i class="arrow arrow-basic"></i>
+			</div>
+		</tao-popover>
   </div>
 </body>
 </html>

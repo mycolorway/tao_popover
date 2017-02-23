@@ -1,7 +1,7 @@
 
 class TaoPopover.Direction extends TaoModule
 
-  @attribute 'popover', 'target', 'boundarySelector'
+  @property 'popover', 'target', 'boundarySelector'
 
   _init: ->
     @boundary = if @boundarySelector

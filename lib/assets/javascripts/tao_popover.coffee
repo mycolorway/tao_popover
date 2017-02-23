@@ -1,4 +1,4 @@
 #= require_self
-#= require_tree ./
+#= require ./tao_popover/element
 
 window.TaoPopover = {}

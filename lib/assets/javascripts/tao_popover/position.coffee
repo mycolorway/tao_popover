@@ -1,13 +1,13 @@
 
 class TaoPopover.Position extends TaoModule
 
-  @attribute 'direction', 'popover', 'target'
+  @property 'direction', 'popover', 'target'
 
-  @attribute 'arrowAlign', default: 'center'
+  @property 'arrowAlign', default: 'center'
 
-  @attribute 'arrowVerticalAlign', default: 'middle'
+  @property 'arrowVerticalAlign', default: 'middle'
 
-  @attribute 'offset', default: 0
+  @property 'offset', default: 0
 
   ARROW_OFFSET: 16
 
