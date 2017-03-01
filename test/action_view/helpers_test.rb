@@ -8,7 +8,7 @@ class TaoPopover::ActionView::HelpersTest < ActiveSupport::TestCase
       'lalala'
     end
     assert_equal minify_html(html), minify_html(%Q{
-      <tao-popover target_traversal=\"prev\" target_selector=\"a\">
+      <tao-popover target_traversal=\"prev\" target_selector=\"a\" class=\"tao-popover\">
         <div class=\"tao-popover-content\">
           lalala
         </div>

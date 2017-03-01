@@ -5,7 +5,13 @@ module TaoPopover
       include ::ActionView::Helpers
       include ::ActionView::Context
 
-      def tao_popover(attributes = nil, &block)
+      def tao_popover(attributes = {}, &block)
+        if attributes[:class].present?
+          attributes[:class] += ' tao-popover'
+        else
+          attributes[:class] = 'tao-popover'
+        end
+        
         content = %Q{
           <div class="tao-popover-content">
             #{capture(&block)}
