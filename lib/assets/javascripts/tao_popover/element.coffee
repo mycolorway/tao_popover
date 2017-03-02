@@ -15,7 +15,7 @@ class TaoPopover.Element extends TaoComponent
 
   @attribute 'boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign'
 
-  @attribute 'offset', default: 5
+  @attribute 'offset', default: 0
 
   @attribute 'autoHide', type: 'boolean', default: true
 

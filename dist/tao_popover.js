@@ -223,7 +223,7 @@
     Element.attribute('boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign');
 
     Element.attribute('offset', {
-      "default": 5
+      "default": 0
     });
 
     Element.attribute('autoHide', {
