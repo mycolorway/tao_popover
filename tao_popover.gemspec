@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["farthinker"]
   spec.email         = ["farthinker@gmail.com"]
 
-  spec.summary       = %q{A popover component based on Tao Framework.}
+  spec.summary       = %q{An easy to use popover component for Rails.}
   spec.description   = %q{A popover component based on Tao Framework.}
   spec.homepage      = "https://github.com/mycolorway/tao_popover"
   spec.license       = "MIT"
