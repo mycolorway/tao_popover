@@ -344,3 +344,12 @@
   TaoComponent.register(TaoPopover.Element);
 
 }).call(this);
+(function() {
+  TaoPopover.create = function(attributes, content) {
+    var $popover;
+    $popover = $('<tao-popover class="tao-popover">\n  <div class="tao-popover-content">\n  </div>\n  <div class="tao-popover-arrow">\n    <i class="arrow arrow-shadow"></i>\n    <i class="arrow arrow-border"></i>\n    <i class="arrow arrow-basic"></i>\n  </div>\n</tao-popover>').attr(attributes);
+    $popover.find('.tao-popover-content').append(content);
+    return $popover.get(0);
+  };
+
+}).call(this);

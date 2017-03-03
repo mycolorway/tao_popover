@@ -8,9 +8,10 @@ module 'TaoPopover.Element',
     @target = $('''
       <span class="popover-target">Target</span>
     ''').appendTo 'body'
-    @popover = $('''
-      <tao-popover target-selector=".popover-target">hahaha</tao-popover>
-    ''').appendTo('body').get(0)
+    @popover = TaoPopover.create
+      'target-selector': '.popover-target'
+    , 'lalala'
+    @popover.jq.appendTo 'body'
 
     setTimeout -> done()
 
