@@ -223,6 +223,7 @@
     Element.attribute('boundarySelector', 'direction', 'arrowAlign', 'arrowVerticalAlign');
 
     Element.attribute('offset', {
+      type: 'number',
       "default": 0
     });
 
