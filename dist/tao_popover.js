@@ -13,7 +13,7 @@
       return Direction.__super__.constructor.apply(this, arguments);
     }
 
-    Direction.property('popover', 'target', 'boundarySelector');
+    Direction.option('popover', 'target', 'boundarySelector');
 
     Direction.prototype._init = function() {
       this.boundary = this.boundarySelector ? this.target.closest(this.boundarySelector) : $(window);
@@ -88,17 +88,17 @@
       return Position.__super__.constructor.apply(this, arguments);
     }
 
-    Position.property('direction', 'popover', 'target');
+    Position.option('direction', 'popover', 'target');
 
-    Position.property('arrowAlign', {
+    Position.option('arrowAlign', {
       "default": 'center'
     });
 
-    Position.property('arrowVerticalAlign', {
+    Position.option('arrowVerticalAlign', {
       "default": 'middle'
     });
 
-    Position.property('offset', {
+    Position.option('offset', {
       "default": 0
     });
 
