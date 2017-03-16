@@ -232,7 +232,7 @@
       "default": true
     });
 
-    Element.prototype._init = function() {
+    Element.prototype._connected = function() {
       var base, base1, name, name1;
       this.target = this.targetTraversal && this.targetSelector ? typeof (base = this.jq)[name = this.targetTraversal] === "function" ? base[name](this.targetSelector) : void 0 : this.targetSelector ? $(this.targetSelector) : void 0;
       if (!(this.target.length > 0)) {
@@ -240,10 +240,7 @@
         return;
       }
       this.trigger = this.triggerTraversal && this.triggerSelector ? typeof (base1 = this.jq)[name1 = this.triggerTraversal] === "function" ? base1[name1](this.triggerSelector) : void 0 : this.triggerSelector ? $(this.triggerSelector) : this.target;
-      return this._bind();
-    };
-
-    Element.prototype._connected = function() {
+      this._bind();
       if (this.active) {
         this.refresh();
       }

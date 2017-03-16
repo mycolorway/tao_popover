@@ -19,7 +19,7 @@ class TaoPopover.Element extends TaoComponent
 
   @attribute 'autoHide', type: 'boolean', default: true
 
-  _init: ->
+  _connected: ->
     @target = if @targetTraversal && @targetSelector
       @jq[@targetTraversal]?(@targetSelector)
     else if @targetSelector
@@ -37,8 +37,6 @@ class TaoPopover.Element extends TaoComponent
       @target
 
     @_bind()
-
-  _connected: ->
     @refresh() if @active
     @_enableAutoHide() if @autoHide && @active
 

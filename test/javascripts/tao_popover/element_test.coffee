@@ -10,6 +10,7 @@ module 'TaoPopover.Element',
     ''').appendTo 'body'
     @popover = TaoPopover.create
       'target-selector': '.popover-target'
+      'target-traversal': 'prev'
     , 'lalala'
     @popover.jq.appendTo 'body'
 
@@ -35,3 +36,22 @@ module 'TaoPopover.Element',
     assert.equal @popover.active, true
     assert.ok @popover.hasAttribute('active')
     assert.equal @popover.direction, 'right-middle'
+
+  test 'move popover', (assert) ->
+    done = assert.async()
+    $container = $('''
+      <div class="container">
+        <span class="popover-target test-target"></span>
+      </div>
+    ''').appendTo 'body'
+    @popover.jq.appendTo $container
+
+    setTimeout =>
+      assert.ok @popover.target.hasClass('test-target')
+      assert.equal @popover.active, false
+
+      @popover.trigger.click()
+      assert.equal @popover.active, true
+
+      $container.remove()
+      done()
