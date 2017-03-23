@@ -5,7 +5,7 @@
 
 class TaoPopover.Element extends TaoComponent
 
-  @tag: 'tao-popover'
+  @tag 'tao-popover'
 
   @attribute 'active', type: 'boolean', observe: true
 
