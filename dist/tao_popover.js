@@ -207,7 +207,7 @@
       return Element.__super__.constructor.apply(this, arguments);
     }
 
-    Element.tag = 'tao-popover';
+    Element.tag('tao-popover');
 
     Element.attribute('active', {
       type: 'boolean',
