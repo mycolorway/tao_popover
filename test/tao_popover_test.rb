@@ -10,4 +10,8 @@ class TaoPopoverTest < ActiveSupport::TestCase
     assert TaoPopover::Engine < Rails::Engine
   end
 
+  test 'TaoPopover::Component inherits from TaoOnRails::Components::Base' do
+    assert TaoPopover::Component < TaoOnRails::Components::Base
+  end
+
 end

@@ -1,4 +1,5 @@
-
+# Avoid using this method to create popover
+# Use `tao_popover` view helper method instead
 TaoPopover.create = (attributes, content) ->
   $popover = $('''
     <tao-popover class="tao-popover">
