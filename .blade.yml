@@ -53,5 +53,5 @@ plugins:
         version: -1
       iPhone:
         version: [9.3]
-      Motorola Droid 4 Emulator:
+      Google Nexus 7 HD Emulator:
         version: [5.1, 4.4]
