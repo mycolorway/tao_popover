@@ -10,10 +10,17 @@ load_paths:
     - lib/assets/stylesheets
     - vendor/assets/javascripts
     - vendor/assets/stylesheets
+  - tao_ui:
+    - lib/assets/javascripts
+    - lib/assets/stylesheets
+    - vendor/assets/javascripts
+    - vendor/assets/stylesheets
 
 logical_paths:
   - tao.js
   - tao.css
+  - tao/ui.js
+  - tao/ui.css
   - tao_popover.css
   - tao_popover.js
   - tao_popover_test.js
@@ -22,6 +29,8 @@ build:
   logical_paths:
     - tao.js
     - tao.css
+    - tao/ui.js
+    - tao/ui.css
     - tao_popover.css
     - tao_popover.js
   path: dist
