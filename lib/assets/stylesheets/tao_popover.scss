@@ -1,4 +1,6 @@
-$arrowSize: 16px;
+@import 'tao/ui/globals';
+
+$arrowSize: 1rem;
 
 tao-popover,
 .tao-popover {
@@ -13,10 +15,10 @@ tao-popover,
   }
 
   .tao-popover-content {
-    padding: 10px 15px;
-    background: #fff;
+    padding: 0.75em 1em;
+    background: $white-color;
     border: .5px solid #ddd;
-    border-radius: 2px;
+    border-radius: $border-radius-s;
     box-shadow: 0 0 6px rgba(0,0,0,0.15);
     white-space: nowrap;
   }
@@ -174,8 +176,4 @@ tao-popover,
       margin-left: -$arrowSize / 2;
     }
   }
-}
-
-tao-popover-trigger {
-  display: inline-block;
 }
