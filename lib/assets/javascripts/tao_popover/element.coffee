@@ -29,7 +29,7 @@ class TaoPopover.Element extends TaoComponent
       throw new Error 'tao-popover: targetSelector attribute is required.'
       return
 
-    @trigger = if @triggerTraversal && @triggerSelector
+    @triggerEl = if @triggerTraversal && @triggerSelector
       @jq[@triggerTraversal]?(@triggerSelector)
     else if @triggerSelector
       $ @triggerSelector
@@ -42,10 +42,10 @@ class TaoPopover.Element extends TaoComponent
 
   _bind: ->
     if @triggerAction == 'click'
-      @trigger.on 'click.tao-popover', (e) =>
+      @triggerEl.on 'click.tao-popover', (e) =>
         @toggleActive()
     else if @triggerAction == 'hover'
-      @trigger.on 'mouseenter.tao-popover', (e) =>
+      @triggerEl.on 'mouseenter.tao-popover', (e) =>
         @active = true
       .on 'mouseleave.tao-popover', (e) =>
         @active = false
@@ -91,7 +91,7 @@ class TaoPopover.Element extends TaoComponent
     @active = !@active
 
   _disconnected: ->
-    @trigger.off '.tao-popover'
+    @triggerEl.off '.tao-popover'
     $(document).off ".tao-popover-#{@taoId}"
 
 TaoComponent.register TaoPopover.Element

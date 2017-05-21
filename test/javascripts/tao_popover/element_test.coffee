@@ -50,7 +50,7 @@ module 'TaoPopover.Element',
       assert.ok @popover.target.hasClass('test-target')
       assert.equal @popover.active, false
 
-      @popover.trigger.click()
+      @popover.triggerEl.click()
       assert.equal @popover.active, true
 
       $container.remove()

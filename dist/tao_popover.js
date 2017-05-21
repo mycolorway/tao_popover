@@ -239,7 +239,7 @@
         throw new Error('tao-popover: targetSelector attribute is required.');
         return;
       }
-      this.trigger = this.triggerTraversal && this.triggerSelector ? typeof (base1 = this.jq)[name1 = this.triggerTraversal] === "function" ? base1[name1](this.triggerSelector) : void 0 : this.triggerSelector ? $(this.triggerSelector) : this.target;
+      this.triggerEl = this.triggerTraversal && this.triggerSelector ? typeof (base1 = this.jq)[name1 = this.triggerTraversal] === "function" ? base1[name1](this.triggerSelector) : void 0 : this.triggerSelector ? $(this.triggerSelector) : this.target;
       this._bind();
       if (this.active) {
         this.refresh();
@@ -251,13 +251,13 @@
 
     Element.prototype._bind = function() {
       if (this.triggerAction === 'click') {
-        return this.trigger.on('click.tao-popover', (function(_this) {
+        return this.triggerEl.on('click.tao-popover', (function(_this) {
           return function(e) {
             return _this.toggleActive();
           };
         })(this));
       } else if (this.triggerAction === 'hover') {
-        return this.trigger.on('mouseenter.tao-popover', (function(_this) {
+        return this.triggerEl.on('mouseenter.tao-popover', (function(_this) {
           return function(e) {
             return _this.active = true;
           };
@@ -331,7 +331,7 @@
     };
 
     Element.prototype._disconnected = function() {
-      this.trigger.off('.tao-popover');
+      this.triggerEl.off('.tao-popover');
       return $(document).off(".tao-popover-" + this.taoId);
     };
 

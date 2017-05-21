@@ -3,6 +3,43 @@
 
 }).call(this);
 (function() {
+  var originDisableElement, originDisableFormElement, prependLoadingIcon;
+
+  prependLoadingIcon = function(element) {
+    return $(element).prepend(Tao.ui.iconTag('loading', {
+      "class": 'spin'
+    }));
+  };
+
+  if ($.rails != null) {
+    originDisableElement = $.rails.disableElement;
+    $.rails.disableElement = function(element) {
+      originDisableElement(element);
+      return prependLoadingIcon(element);
+    };
+    originDisableFormElement = $.rails.disableFormElement;
+    $.rails.disableFormElement = function(element) {
+      originDisableFormElement(element);
+      return prependLoadingIcon(element);
+    };
+  } else if (typeof Rails !== "undefined" && Rails !== null) {
+    originDisableElement = Rails.disableElement;
+    Rails.disableElement = function(e) {
+      var element;
+      originDisableElement(e);
+      element = e instanceof Event ? e.target : e;
+      if (Rails.matches(element, Rails.formSubmitSelector)) {
+        return Rails.formElements(element, Rails.formDisableSelector).forEach(function(el) {
+          return prependLoadingIcon(el);
+        });
+      } else {
+        return prependLoadingIcon(element);
+      }
+    };
+  }
+
+}).call(this);
+(function() {
   Tao.ui = {
     icons: '',
     iconTag: function(name, attributes) {

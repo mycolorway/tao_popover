@@ -433,8 +433,8 @@ template {
     transform: rotate(360deg); } }
 .icon {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 1.25em;
+  height: 1.25em;
   vertical-align: middle;
   fill: inherit; }
   .icon.spin {
@@ -606,12 +606,10 @@ pre {
     border-radius: 0;
     word-wrap: normal; }
 .button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   padding: 0.5em 1em;
   font-size: 1rem;
-  line-height: 1.375;
+  line-height: 1.5;
   border-radius: 0.125rem;
   cursor: pointer;
   text-decoration: none;
@@ -644,9 +642,7 @@ pre {
     fill: #cccccc;
     box-shadow: none; }
   .button .icon {
-    width: 1em;
-    height: 1em;
-    margin: 0 0.4em 0 0; }
+    vertical-align: text-top; }
   .button:focus, .button.focus {
     outline: none; }
   .button:hover {
@@ -727,10 +723,10 @@ pre {
       box-shadow: none; }
   .button.button-small {
     padding: 0.25em 0.5em;
-    font-size: 0.875rem;
-    line-height: 1.3; }
+    font-size: 0.75rem;
+    line-height: 1.5; }
   .button.button-block {
-    display: flex;
+    display: block;
     width: 100%; }
 table.table {
   width: 100%;
